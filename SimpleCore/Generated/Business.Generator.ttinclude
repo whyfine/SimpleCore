@@ -320,7 +320,11 @@ namespace <#=BusinessNamespace#>
     { var paramType=LoadTypes(EntityParamterNamespace).Where(p=>p.Name.Equals(t.Name+"Paramter",StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 #>   
     public partial class <#=t.Name#>Bll : BusinessBase<<#=t.Name#>>
-    {<# if(paramType!=null){ 
+    {
+		internal <#=t.Name#>Bll(ExceptionEventHandler onException)
+        {
+            base.OnException += onException;
+        }<# if(paramType!=null){ 
 			var paramPropertyInfos=paramType.GetProperties().Select(pi => new Tuple<PropertyInfo, string>(pi, pi.GetCustomAttributes(typeof(DisplayNameAttribute), false).Count() > 0 ? (pi.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as DisplayNameAttribute).DisplayName : string.Empty));
 			if(paramPropertyInfos.Count()>0){ #>
 		public List<<#=t.Name#>> QueryByParamter(<#=paramType.Name#> param)
@@ -333,13 +337,37 @@ namespace <#=BusinessNamespace#>
 				args.Add(param.<#=p.Item1.Name#>);
 			}<# }#>
 			string wherestr = wheresb.ToString();
-			return this.Query(wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray());
+			return base.Query(wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray());
+        }
+		public long? QueryCountByParamter(<#=paramType.Name#> param)
+        {
+			var args = new List<object>();
+            StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){  #>
+			if(param.<#=p.Item1.Name#><#=CheckIsNullString(p.Item1.PropertyType)#>)
+			{
+				wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
+				args.Add(param.<#=p.Item1.Name#>);
+			}<# }#>
+			string wherestr = wheresb.ToString();
+			return base.QueryCount(wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray());
+        }
+		public List<<#=t.Name#>> PageByParamter(out long totalCount, out long totalPage,<#=paramType.Name#> param, string[] columns = null, string[] orderbyColumns = null, long pageIndex = 1, long pageSize = 20)
+        {
+			var args = new List<object>();
+            StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){  #>
+			if(param.<#=p.Item1.Name#><#=CheckIsNullString(p.Item1.PropertyType)#>)
+			{
+				wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
+				args.Add(param.<#=p.Item1.Name#>);
+			}<# }#>
+			string wherestr = wheresb.ToString();
+			return base.Page(out totalCount, out totalPage, wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray(), columns, orderbyColumns, pageIndex, pageSize);
         }
 		public object InsertByParamter(<#=paramType.Name#> param)
         {
 			<#=t.Name#> model = new <#=t.Name#>();<#foreach (var p in paramPropertyInfos){ var entityPropertyInfo=t.GetProperties().Where(pi => pi.Name==p.Item2).FirstOrDefault();  if(entityPropertyInfo!=null){ #>
 			model.<#=entityPropertyInfo.Name#> = param.<#=p.Item1.Name#><#=CheckIsNullString(p.Item1.PropertyType)#> ? param.<#=p.Item1.Name#><#=GetValueByType(p.Item1.PropertyType)#> : <#=DefaultStringByType(p.Item1.PropertyType)#>;<# } }#>
-			return this.Insert(model);
+			return base.Insert(model);
         }
 		public object UpdateByParamter(<#=paramType.Name#> param,object id)
         {
@@ -350,7 +378,7 @@ namespace <#=BusinessNamespace#>
 				model.<#=entityPropertyInfo.Name#> = param.<#=p.Item1.Name#><#=GetValueByType(p.Item1.PropertyType)#> ;
 				columns.Add("<#=entityPropertyInfo.Name#>");
 			}<# } }#>
-			return this.Update(model,id,columns.ToArray());
+			return base.Update(model,id,columns.ToArray());
         }
 		public object DeleteByParamter(<#=paramType.Name#> param)
         {
@@ -362,7 +390,7 @@ namespace <#=BusinessNamespace#>
 				args.Add(param.<#=p.Item1.Name#>);
 			}<# }#>
 			string wherestr = wheresb.ToString();
-			return this.Delete(wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray());
+			return base.Delete(wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray());
         }
 		<#} } #>
     }<# }#>   

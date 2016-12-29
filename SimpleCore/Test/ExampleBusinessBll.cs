@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using SimpleCore.DataAccess;
 using PetaPoco;
 
-namespace SimpleCoreExample
+namespace SimpleCore.Test
 {
-    public abstract class ExampleBaseBll<TEntity> where TEntity : class,new()
+    public abstract class ExampleBusinessBll<TEntity> where TEntity : class,new()
     {
         protected virtual event ExceptionEventHandler OnException;
         protected void OnExceptionNotice(Exception ex)

@@ -1,4 +1,4 @@
-﻿<#@ include file="Partial.Core.ttinclude" #>
+﻿<#@ include file="Finally.Core.ttinclude" #>
 <#
 	// Settings
 	//Entity所在dll的命名空间
@@ -19,10 +19,11 @@
     // Read schema
 	 Types = LoadTypes(EntityNamespace);
 #>
-<#@ include file="PartialEntity.Generator.ttinclude" #>
+<#@ include file="Finally.PartialEntity.Generator.ttinclude" #>
 <#
 	// Settings
     // Read schema
 	 Types = LoadTypes(BusinessNamespace);
 #>
-<#@ include file="PartialBusiness.Generator.ttinclude" #>
+<#@ include file="Finally.PartialBusiness.Generator.ttinclude" #>
+<#@ include file="Finally.CoreProvider.Generator.ttinclude" #>

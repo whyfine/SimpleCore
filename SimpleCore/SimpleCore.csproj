@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExampleBaseBll.cs" />
     <Compile Include="Generated\Business.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -55,10 +54,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Generated\Partial.cs">
+    <Compile Include="Generated\Finally.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Partial.tt</DependentUpon>
+      <DependentUpon>Finally.tt</DependentUpon>
     </Compile>
     <Compile Include="Generated\PetaPoco.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,12 +78,13 @@
     </None>
     <None Include="Generated\Entity.Core.ttinclude" />
     <None Include="Generated\Entity.Generator.ttinclude" />
-    <None Include="Generated\Partial.Core.ttinclude" />
-    <None Include="Generated\PartialBusiness.Generator.ttinclude" />
-    <None Include="Generated\PartialEntity.Generator.ttinclude" />
-    <None Include="Generated\Partial.tt">
+    <None Include="Generated\Finally.Core.ttinclude" />
+    <None Include="Generated\Finally.CoreProvider.Generator.ttinclude" />
+    <None Include="Generated\Finally.PartialBusiness.Generator.ttinclude" />
+    <None Include="Generated\Finally.PartialEntity.Generator.ttinclude" />
+    <None Include="Generated\Finally.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Partial.cs</LastGenOutput>
+      <LastGenOutput>Finally.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

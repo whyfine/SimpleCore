@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using <#=BusinessNamespace#>;
+   
+namespace SimpleCore
+{
+    public class CoreProvider
+    {
+        private CoreProvider() { }
+
+        [ThreadStatic]
+        private static CoreProvider _provider = new CoreProvider();
+        public static CoreProvider Provider
+        {
+            get
+            {
+                if (_provider == null) _provider = new CoreProvider();
+                return _provider;
+            }
+        }
+		<#  foreach (var t in Types.Where(m=>!m.IsGenericType)){ #>public <#=t.Name#> <#=t.Name#> = new <#=t.Name#>(Business_OnException);
+		<# } #>
+		
+        static void Business_OnException(object sender, DbContextExceptionEventArgs e)
+        {
+            //write log
+        }
+    }
+}
+ 
