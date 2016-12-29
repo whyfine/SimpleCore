@@ -1,0 +1,22 @@
+﻿<#  foreach (var t in Types) {#>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace <#=EntityNamespace#>
+{
+    public partial class <#=t.Name#>
+    {
+        
+    }
+}
+<#if(!string.IsNullOrEmpty(EntityParamterNamespace)){#>
+namespace <#=EntityParamterNamespace#>
+{
+    public class <#=t.Name#>Paramter
+    {
+        
+    }
+}	
+<# } SaveOutput(t.Name + ".cs",EntityOutputFileFolder); }#>

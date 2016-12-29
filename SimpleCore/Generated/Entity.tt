@@ -1,0 +1,37 @@
+<#@ include file="Entity.Core.ttinclude" #>
+<#
+	// Settings
+   //app.config或者web.config中的connstring
+    ConnectionStringName = "mysqlconn";			// Uses last connection string in config if not specified
+   //给Entity定义命名空间
+    EntityNamespace = "SimpleCore.Entity";
+   //给DataAccess定义命名空间
+    DataAccessNamespace = "SimpleCore.DataAccess";
+   //DataAccess的类名
+    RepoName = "DbContext";
+    GenerateOperations = false;
+	GeneratePocos = true;
+	GenerateCommon = true;
+	TrackModifiedColumns = false;
+	ExplicitColumns = true;
+	ExcludePrefix = new string[] {}; // Exclude tables by prefix.
+
+    // Read schema
+	var tables = LoadTables();
+
+
+/*
+	// Tweak Schema
+	tables["tablename"].Ignore = true;							// To ignore a table
+	tables["tablename"].ClassName = "newname";					// To change the class name of a table
+	tables["tablename"]["columnname"].Ignore = true;			// To ignore a column
+	tables["tablename"]["columnname"].PropertyName="newname";	// To change the property name of a column
+	tables["tablename"]["columnname"].PropertyType="bool";		// To change the property type of a column
+*/
+
+	// Generate output
+	if (tables.Count>0)
+	{
+#>
+<#@ include file="Entity.Generator.ttinclude" #>
+<# } #>

@@ -1,0 +1,17 @@
+﻿<#  foreach (var t in Types){ string realName=t.Name; if(t.IsGenericType) realName=realName.Remove(realName.IndexOf('`')); var baseStr= t.IsGenericType?"":" : "+t.BaseType.Name.Remove(t.BaseType.Name.IndexOf('`'))+"<"+t.BaseType.GenericTypeArguments[0].Name+">"; #>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PetaPoco;
+using <#=EntityNamespace#>;
+using <#=DataAccessNamespace#>;
+   
+namespace <#=BusinessNamespace#>
+{
+    public partial class <#=realName#><#=baseStr#>
+    {
+        
+    } 
+}
+<#   SaveOutput(realName + ".cs",BusinessOutputFileFolder); }#>  

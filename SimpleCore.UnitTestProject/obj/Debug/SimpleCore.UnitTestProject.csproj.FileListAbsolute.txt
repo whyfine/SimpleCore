@@ -1,0 +1,13 @@
+D:\project_demo\SimpleBase\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.UnitTestProject.dll
+D:\project_demo\SimpleBase\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.UnitTestProject.pdb
+D:\project_demo\SimpleBase\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitTestProject.csprojResolveAssemblyReference.cache
+D:\project_demo\SimpleBase\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitTestProject.dll
+D:\project_demo\SimpleBase\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitTestProject.pdb
+D:\project_demo\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.UnitTestProject.dll.config
+D:\project_demo\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.UnitTestProject.dll
+D:\project_demo\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.UnitTestProject.pdb
+D:\project_demo\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.dll
+D:\project_demo\SimpleCore\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitTestProject.dll
+D:\project_demo\SimpleCore\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitTestProject.pdb
+D:\project_demo\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.pdb
+D:\project_demo\SimpleCore\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitTestProject.csprojResolveAssemblyReference.cache

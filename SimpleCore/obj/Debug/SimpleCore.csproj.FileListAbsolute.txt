@@ -1,0 +1,13 @@
+D:\project_demo\SimpleBase\SimpleCore\bin\Debug\SimpleCore.dll.config
+D:\project_demo\SimpleBase\SimpleCore\bin\Debug\SimpleCore.dll
+D:\project_demo\SimpleBase\SimpleCore\bin\Debug\SimpleCore.pdb
+D:\project_demo\SimpleBase\SimpleCore\obj\Debug\SimpleCore.csprojResolveAssemblyReference.cache
+D:\project_demo\SimpleBase\SimpleCore\obj\Debug\SimpleCore.dll
+D:\project_demo\SimpleBase\SimpleCore\obj\Debug\SimpleCore.pdb
+D:\project_demo\SimpleCore\SimpleCore\bin\Debug\SimpleCore.dll
+D:\project_demo\SimpleCore\SimpleCore\bin\Debug\SimpleCore.dll.config
+D:\project_demo\SimpleCore\SimpleCore\bin\Debug\MySql.Data.dll
+D:\project_demo\SimpleCore\SimpleCore\obj\Debug\SimpleCore.dll
+D:\project_demo\SimpleCore\SimpleCore\obj\Debug\SimpleCore.pdb
+D:\project_demo\SimpleCore\SimpleCore\bin\Debug\SimpleCore.pdb
+D:\project_demo\SimpleCore\SimpleCore\obj\Debug\SimpleCore.csprojResolveAssemblyReference.cache

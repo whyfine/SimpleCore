@@ -1,0 +1,28 @@
+﻿<#@ include file="Partial.Core.ttinclude" #>
+<#
+	// Settings
+	//Entity所在dll的命名空间
+     EntityNamespace="SimpleCore.Entity";
+	//Entity输出文件夹的相对路径
+	 EntityOutputFileFolder="..\\Entity";
+	 //EntityParamter输出命名空间
+	 EntityParamterNamespace="SimpleCore.EntityParamter";
+
+	 //DataAccess所在dll的命名空间
+	 DataAccessNamespace="SimpleCore.DataAccess";
+
+	 //Business所在dll的命名空间
+	 BusinessNamespace="SimpleCore.Business";
+	//Entity输出文件夹的相对路径
+	 BusinessOutputFileFolder="..\\Business";
+
+    // Read schema
+	 Types = LoadTypes(EntityNamespace);
+#>
+<#@ include file="PartialEntity.Generator.ttinclude" #>
+<#
+	// Settings
+    // Read schema
+	 Types = LoadTypes(BusinessNamespace);
+#>
+<#@ include file="PartialBusiness.Generator.ttinclude" #>

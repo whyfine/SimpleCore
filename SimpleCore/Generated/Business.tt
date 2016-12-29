@@ -1,0 +1,15 @@
+﻿<#@ include file="Business.Core.ttinclude" #>
+<#
+	// Settings
+	//Entity所在dll的命名空间
+     EntityNamespace="SimpleCore.Entity";
+	 //EntityParamter所在命名空间
+	 EntityParamterNamespace="SimpleCore.EntityParamter";
+	//DataAccess所在dll的命名空间
+     DataAccessNamespace="SimpleCore.DataAccess";
+	//给Business定义命名空间
+	 BusinessNamespace="SimpleCore.Business";
+    // Read schema
+	 Types = LoadTypes(EntityNamespace);
+#>
+<#@ include file="Business.Generator.ttinclude" #>
