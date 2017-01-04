@@ -30,4 +30,4 @@ namespace SimpleCore
         }
     }
 }
- 
+<# SaveOutput("CoreProvider.cs",CoreProviderOutputFileFolder);#>  

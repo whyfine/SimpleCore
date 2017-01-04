@@ -4,7 +4,7 @@
 	//Entity所在dll的命名空间
      EntityNamespace="SimpleCore.Entity";
 	//Entity输出文件夹的相对路径
-	 EntityOutputFileFolder="..\\Entity";
+	 EntityOutputFileFolder="../Entity";
 	 //EntityParamter输出命名空间
 	 EntityParamterNamespace="SimpleCore.EntityParamter";
 
@@ -14,7 +14,9 @@
 	 //Business所在dll的命名空间
 	 BusinessNamespace="SimpleCore.Business";
 	//Entity输出文件夹的相对路径
-	 BusinessOutputFileFolder="..\\Business";
+	 BusinessOutputFileFolder="../Business";
+	//CoreProvider输出文件夹相对路径
+	 CoreProviderOutputFileFolder="../";
 
     // Read schema
 	 Types = LoadTypes(EntityNamespace);

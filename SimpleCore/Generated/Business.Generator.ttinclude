@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleCore;
 using PetaPoco;
-using <#=EntityNamespace#>;<# if(!string.IsNullOrEmpty(EntityParamterNamespace)) { #>
+using <#=EntityNamespace#>;<# var paramTypes=LoadTypes(EntityParamterNamespace); if(!string.IsNullOrEmpty(EntityParamterNamespace)&&paramTypes.Count>0) { #>
 using <#=EntityParamterNamespace#>;<# } #>
 using <#=DataAccessNamespace#>;
 
@@ -317,7 +317,7 @@ namespace <#=BusinessNamespace#>
     }
 
 <#  foreach (var t in Types)
-    { var paramType=LoadTypes(EntityParamterNamespace).Where(p=>p.Name.Equals(t.Name+"Paramter",StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+    { var paramType=paramTypes.Where(p=>p.Name.Equals(t.Name+"Paramter",StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 #>   
     public partial class <#=t.Name#>Bll : BusinessBase<<#=t.Name#>>
     {
@@ -330,65 +330,76 @@ namespace <#=BusinessNamespace#>
 		public List<<#=t.Name#>> QueryByParamter(<#=paramType.Name#> param)
         {
 			var args = new List<object>();
-            StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){  #>
-			if(param.<#=p.Item1.Name#><#=CheckIsNullString(p.Item1.PropertyType)#>)
+            StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){ var nullString=CheckIsNullString(p.Item1.PropertyType,"param."+p.Item1.Name); if(!string.IsNullOrEmpty(nullString)) { #>
+			if(<#=nullString#>)
 			{
 				wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
 				args.Add(param.<#=p.Item1.Name#>);
-			}<# }#>
+			}<# } else { #>
+			wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
+			args.Add(param.<#=p.Item1.Name#>); <# } }#>
 			string wherestr = wheresb.ToString();
 			return base.Query(wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray());
         }
 		public long? QueryCountByParamter(<#=paramType.Name#> param)
         {
 			var args = new List<object>();
-            StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){  #>
-			if(param.<#=p.Item1.Name#><#=CheckIsNullString(p.Item1.PropertyType)#>)
+            StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){ var nullString=CheckIsNullString(p.Item1.PropertyType,"param."+p.Item1.Name); if(!string.IsNullOrEmpty(nullString)) { #>
+			if(<#=nullString#>)
 			{
 				wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
 				args.Add(param.<#=p.Item1.Name#>);
-			}<# }#>
+			}<# } else { #>
+			wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
+			args.Add(param.<#=p.Item1.Name#>); <# } }#>
 			string wherestr = wheresb.ToString();
 			return base.QueryCount(wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray());
         }
 		public List<<#=t.Name#>> PageByParamter(out long totalCount, out long totalPage,<#=paramType.Name#> param, string[] columns = null, string[] orderbyColumns = null, long pageIndex = 1, long pageSize = 20)
         {
 			var args = new List<object>();
-            StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){  #>
-			if(param.<#=p.Item1.Name#><#=CheckIsNullString(p.Item1.PropertyType)#>)
+            StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){ var nullString=CheckIsNullString(p.Item1.PropertyType,"param."+p.Item1.Name); if(!string.IsNullOrEmpty(nullString)) { #>
+			if(<#=nullString#>)
 			{
 				wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
 				args.Add(param.<#=p.Item1.Name#>);
-			}<# }#>
+			}<# } else { #>
+			wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
+			args.Add(param.<#=p.Item1.Name#>); <# } }#>
 			string wherestr = wheresb.ToString();
 			return base.Page(out totalCount, out totalPage, wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray(), columns, orderbyColumns, pageIndex, pageSize);
         }
 		public object InsertByParamter(<#=paramType.Name#> param)
         {
-			<#=t.Name#> model = new <#=t.Name#>();<#foreach (var p in paramPropertyInfos){ var entityPropertyInfo=t.GetProperties().Where(pi => pi.Name==p.Item2).FirstOrDefault();  if(entityPropertyInfo!=null){ #>
-			model.<#=entityPropertyInfo.Name#> = param.<#=p.Item1.Name#><#=CheckIsNullString(p.Item1.PropertyType)#> ? param.<#=p.Item1.Name#><#=GetValueByType(p.Item1.PropertyType)#> : <#=DefaultStringByType(p.Item1.PropertyType)#>;<# } }#>
+			<#=t.Name#> model = new <#=t.Name#>();<#foreach (var p in paramPropertyInfos){ var entityPropertyInfo=t.GetProperties().Where(pi => pi.Name==p.Item2).FirstOrDefault();  if(entityPropertyInfo!=null){ var nullString=CheckIsNullString(p.Item1.PropertyType,"param."+p.Item1.Name); if(!string.IsNullOrEmpty(nullString)) { #>
+			model.<#=entityPropertyInfo.Name#> = <#=CheckIsNullString(p.Item1.PropertyType,"param."+p.Item1.Name)#> ? <#=GetValueByType(p.Item1.PropertyType,"param."+p.Item1.Name)#> : <#=DefaultStringByType(p.Item1.PropertyType,"param."+p.Item1.Name)#>;<# } else{ #>
+			model.<#=entityPropertyInfo.Name#> = <#=GetValueByType(p.Item1.PropertyType,"param."+p.Item1.Name)#>;<# } } }#>
 			return base.Insert(model);
         }
 		public object UpdateByParamter(<#=paramType.Name#> param,object id)
         {
 			var columns = new List<string>();
-			<#=t.Name#> model = new <#=t.Name#>();<#foreach (var p in paramPropertyInfos){ var entityPropertyInfo=t.GetProperties().Where(pi => pi.Name==p.Item2).FirstOrDefault();  if(entityPropertyInfo!=null){ #>
-			if(param.<#=p.Item1.Name#><#=CheckIsNullString(p.Item1.PropertyType)#>)
+			<#=t.Name#> model = new <#=t.Name#>();<#foreach (var p in paramPropertyInfos){ var entityPropertyInfo=t.GetProperties().Where(pi => pi.Name==p.Item2).FirstOrDefault();  if(entityPropertyInfo!=null){ var nullString=CheckIsNullString(p.Item1.PropertyType,"param."+p.Item1.Name); if(!string.IsNullOrEmpty(nullString)) { #>
+			if(<#=nullString#>)
 			{
-				model.<#=entityPropertyInfo.Name#> = param.<#=p.Item1.Name#><#=GetValueByType(p.Item1.PropertyType)#> ;
+				model.<#=entityPropertyInfo.Name#> = <#=GetValueByType(p.Item1.PropertyType,"param."+p.Item1.Name)#> ;
 				columns.Add("<#=entityPropertyInfo.Name#>");
-			}<# } }#>
+			}<# } else { #>
+			model.<#=entityPropertyInfo.Name#> = <#=GetValueByType(p.Item1.PropertyType,"param."+p.Item1.Name)#> ;
+			columns.Add("<#=entityPropertyInfo.Name#>");<# } } }#>
 			return base.Update(model,id,columns.ToArray());
         }
 		public object DeleteByParamter(<#=paramType.Name#> param)
         {
 			var args = new List<object>();
-			StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){  #>
-			if(param.<#=p.Item1.Name#><#=CheckIsNullString(p.Item1.PropertyType)#>)
+			StringBuilder wheresb = new StringBuilder();<#foreach (var p in paramPropertyInfos){ var entityPropertyInfo=t.GetProperties().Where(pi => pi.Name==p.Item2).FirstOrDefault();  if(entityPropertyInfo!=null){ var nullString=CheckIsNullString(p.Item1.PropertyType,"param."+p.Item1.Name); if(!string.IsNullOrEmpty(nullString)) { #>
+			if(<#=nullString#>)
 			{
 				wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
 				args.Add(param.<#=p.Item1.Name#>);
-			}<# }#>
+			}<# } else { #>
+			wheresb.AppendFormat(" {0}=@{1} and", "<#=p.Item2#>", args.Count);
+			args.Add(param.<#=p.Item1.Name#>);<# } } }#>
 			string wherestr = wheresb.ToString();
 			return base.Delete(wherestr.EndsWith("and") ? wherestr.Substring(0,wherestr.Length-3) : wherestr , args.ToArray());
         }

@@ -14,8 +14,6 @@ D:\project_demo\SimpleCore\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitT
 D:\github\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.UnitTestProject.dll.config
 D:\github\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.UnitTestProject.dll
 D:\github\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.UnitTestProject.pdb
-D:\github\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.dll
 D:\github\SimpleCore\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitTestProject.csprojResolveAssemblyReference.cache
 D:\github\SimpleCore\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitTestProject.dll
 D:\github\SimpleCore\SimpleCore.UnitTestProject\obj\Debug\SimpleCore.UnitTestProject.pdb
-D:\github\SimpleCore\SimpleCore.UnitTestProject\bin\Debug\SimpleCore.pdb

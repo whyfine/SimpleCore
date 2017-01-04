@@ -16,18 +16,28 @@
 	string DataAccessNamespace="";
     string EntityOutputFileFolder="";
     string BusinessOutputFileFolder="";
+	string CoreProviderOutputFileFolder="";
     List<Type> Types;
     List<Type> LoadTypes(string typeNamespace)
 	{
-		return Assembly.LoadFrom(Host.ResolvePath("..\\bin\\Debug\\SimpleCore.dll")).GetExportedTypes().Where(t => t.IsClass && t.Namespace.Equals(typeNamespace,StringComparison.OrdinalIgnoreCase)).ToList();
+		using (Stream stream = File.OpenRead(this.Host.ResolvePath("..\\bin\\Debug\\SimpleCore.dll")))
+		{
+			byte[] rawAssembly = new byte[stream.Length];
+			stream.Read(rawAssembly, 0, (int)stream.Length);
+			return Assembly.Load(rawAssembly).GetExportedTypes().Where(t => t.IsClass && t.Namespace.Equals(typeNamespace,StringComparison.OrdinalIgnoreCase)).ToList();
+		}
+		//修改原因：Assembly.LoadFrom会占用dll的打开状态
+		//return Assembly.LoadFrom(Host.ResolvePath("..\\bin\\Debug\\SimpleCore.dll")).GetExportedTypes().Where(t => t.IsClass && t.Namespace.Equals(typeNamespace,StringComparison.OrdinalIgnoreCase)).ToList();
 	}
 	void SaveOutput(string outputFileName,string utputFileFolder)
     {
         // Write to destination folder
-
-		string outputPath=Host.ResolvePath(utputFileFolder);
+		string outputPath=Path.Combine(this.Host.ResolvePath(""), utputFileFolder);
 		string outputFilePath = Path.Combine(outputPath, outputFileName);
-        File.Delete(outputFilePath);
+	 	if(!Directory.Exists(outputPath))
+			Directory.CreateDirectory(outputPath);
+		else
+			File.Delete(outputFilePath);
         File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString()); 
  
         // Flush generation

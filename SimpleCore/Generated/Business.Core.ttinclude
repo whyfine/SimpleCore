@@ -17,21 +17,25 @@
     List<Type> Types;
     List<Type> LoadTypes(string typeNamespace)
 	{
-		return Assembly.LoadFrom(Host.ResolvePath("..\\bin\\Debug\\SimpleCore.dll")).GetExportedTypes().Where(t => t.IsClass && t.Namespace.Equals(typeNamespace,StringComparison.OrdinalIgnoreCase)).ToList();
+		using (Stream stream = File.OpenRead(this.Host.ResolvePath("..\\bin\\Debug\\SimpleCore.dll")))
+		{
+			byte[] rawAssembly = new byte[stream.Length];
+			stream.Read(rawAssembly, 0, (int)stream.Length);
+			return Assembly.Load(rawAssembly).GetExportedTypes().Where(t => t.IsClass && t.Namespace.Equals(typeNamespace,StringComparison.OrdinalIgnoreCase)).ToList();
+		}
+		//修改原因：Assembly.LoadFrom会占用dll的打开状态
+		//return Assembly.LoadFrom(Host.ResolvePath("..\\bin\\Debug\\SimpleCore.dll")).GetExportedTypes().Where(t => t.IsClass && t.Namespace.Equals(typeNamespace,StringComparison.OrdinalIgnoreCase)).ToList();
 	}
-	string DefaultStringByType(Type t)
+	string DefaultStringByType(Type t,string valstring)
 	{
-		if(t.Equals(typeof(Nullable<int>))||t.Equals(typeof(Nullable<long>))||	t.Equals(typeof(Nullable<decimal>))||t.Equals(typeof(Nullable<double>))|| t.Equals(typeof(Nullable<Int16>))||t.Equals(typeof(Nullable<Int32>))|| t.Equals(typeof(Nullable<Int64>)))
+		if(t.IsValueType)
 		{
-			return "0";
-		}
-		else if(t.Equals(typeof(Nullable<bool>)))
-		{
-			return "false";
-		}
-		else if(t.Equals(typeof(Nullable<DateTime>)))
-		{
-			return "DateTime.Now";
+			if(t.IsGenericType &&
+                t.GetGenericTypeDefinition() == typeof(Nullable<>))
+					 if(t.Equals(typeof(Nullable<DateTime>)))
+						return "DateTime.Now";
+					return valstring+".GetValueOrDefault()";
+			return valstring;
 		}
 		else if(t.Equals(typeof(string)))
 		{
@@ -42,34 +46,42 @@
 			return "null";
 		}
 	}
-	string CheckIsNullString(Type t)
+	string CheckIsNullString(Type t,string valstring)
     {
-		if(t.Equals(typeof(Nullable<int>))||t.Equals(typeof(Nullable<long>))||	t.Equals(typeof(Nullable<decimal>))||t.Equals(typeof(Nullable<double>))|| t.Equals(typeof(Nullable<Int16>))||t.Equals(typeof(Nullable<Int32>))|| t.Equals(typeof(Nullable<Int64>))||t.Equals(typeof(Nullable<bool>))||t.Equals(typeof(Nullable<DateTime>)))
+		if(t.IsValueType)
 		{
-			return ".HasValue";
+			if(t.IsGenericType &&
+                t.GetGenericTypeDefinition() == typeof(Nullable<>))
+				return valstring+".HasValue";
+			return null;
 		}
 		else if(t.Equals(typeof(string)))
 		{
-			return "!=null";
+			return "!string.IsNullOrEmpty("+valstring+")";
 		}
 		else
 		{
-			return "!=null";
+			return valstring+"!=null";
 		}
 	}
-	string GetValueByType(Type t)
+	string GetValueByType(Type t,string valstring)
     {
-		if(t.Equals(typeof(Nullable<int>))||t.Equals(typeof(Nullable<long>))||	t.Equals(typeof(Nullable<decimal>))||t.Equals(typeof(Nullable<double>))|| t.Equals(typeof(Nullable<Int16>))||t.Equals(typeof(Nullable<Int32>))|| t.Equals(typeof(Nullable<Int64>))||t.Equals(typeof(Nullable<bool>))||t.Equals(typeof(Nullable<DateTime>)))
+		if(t.IsValueType)
 		{
-			return ".Value";
+			//值类型
+			if(t.IsGenericType &&
+                t.GetGenericTypeDefinition() == typeof(Nullable<>))
+				//可空值类型
+				return valstring+".Value";
+			return valstring;
 		}
 		else if(t.Equals(typeof(string)))
 		{
-			return "";
+			return valstring;
 		}
 		else
 		{
-			return "";
+			return valstring;
 		}
 	}
 #>
