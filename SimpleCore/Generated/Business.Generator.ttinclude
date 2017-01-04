@@ -43,7 +43,7 @@ namespace <#=BusinessNamespace#>
         {
             return this.QueryCount<TEntity>(where, args);
         }
-        protected virtual List<TOther> Query<TOther>(string where = null, object[] args = null, string[] columns = null, string[] orderbyColumns = null)
+        protected List<TOther> Query<TOther>(string where = null, object[] args = null, string[] columns = null, string[] orderbyColumns = null)
             where TOther : class,new()
         {
             try
@@ -64,7 +64,7 @@ namespace <#=BusinessNamespace#>
             }
             return null;
         }
-        protected virtual long? QueryCount<TOther>(string where = null, object[] args = null)
+        protected long? QueryCount<TOther>(string where = null, object[] args = null)
             where TOther : class,new()
         {
             var sql = Sql.Builder.Select("count(1)");
@@ -104,7 +104,7 @@ namespace <#=BusinessNamespace#>
         {
             return this.Insert<TEntity>(e);
         }
-        protected virtual object Insert<TOther>(TOther e)
+        protected object Insert<TOther>(TOther e)
         {
             try
             {

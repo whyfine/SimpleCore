@@ -2,7 +2,7 @@
 <#
 	// Settings
    //app.config或者web.config中的connstring
-    ConnectionStringName = "mysqlconn";			// Uses last connection string in config if not specified
+    ConnectionStringName = "sqlconn";			// Uses last connection string in config if not specified
    //给Entity定义命名空间
     EntityNamespace = "SimpleCore.Entity";
    //给DataAccess定义命名空间

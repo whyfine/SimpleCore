@@ -17,4 +17,3 @@ D:\github\SimpleCore\SimpleCore\bin\Debug\MySql.Data.dll
 D:\github\SimpleCore\SimpleCore\obj\Debug\SimpleCore.dll
 D:\github\SimpleCore\SimpleCore\obj\Debug\SimpleCore.pdb
 D:\github\SimpleCore\SimpleCore\bin\Debug\SimpleCore.pdb
-D:\github\SimpleCore\SimpleCore\obj\Debug\SimpleCore.csprojResolveAssemblyReference.cache

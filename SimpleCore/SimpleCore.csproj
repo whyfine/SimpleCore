@@ -60,7 +60,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Finally.tt</DependentUpon>
     </Compile>
-    <Compile Include="Generated\PetaPoco.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
